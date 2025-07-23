@@ -11,11 +11,16 @@ public class ProductService {
 
     private final ProductRespository productRespository;
 
-    public Product saveNewProduct(String name) {
+    public Product saveNewProduct(String name, Integer stock) throws Exception {
         Product product = new Product();
-        product.setStock(100);
+        product.setStock(stock);
         product.setName(name);
 
+        Product products = productRespository.findByName(name);
+        if(products !=null){
+            throw new Exception("Ya existe producto");
+
+        }
         return productRespository.save(product);
     }
 

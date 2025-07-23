@@ -7,18 +7,24 @@ import com.javabackend.clients.respository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ClientService {
     private final ClientRepository clientRepository;
 
-    public Client saveNewClient(SaveNewClientDto dto){
+    public Client saveNewClient(SaveNewClientDto dto) throws Exception{
+
         Client client=mapDtoToClient(dto);
+        if(clientRepository.findByEmail(dto.getEmail()).isPresent()){
+            throw new Exception("Ya existe un usuario con ese correo.");
+        }
         return clientRepository.save(client);
 
     }
 
-    public Client getClientByEmail(String email){
+    public Optional<Client> getClientByEmail(String email){
         return clientRepository.findByEmail(email);
     }
 

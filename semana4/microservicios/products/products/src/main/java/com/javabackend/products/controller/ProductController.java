@@ -16,10 +16,15 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<Product> saveNewProduct(@RequestBody SaveNewProductDto dto){
-       Product response=productService.saveNewProduct(dto.getName());
-       return new ResponseEntity<>(response, HttpStatus.OK);
+    @PostMapping("/save")
+    public ResponseEntity<?> saveNewProduct(@RequestBody SaveNewProductDto dto){
+        Product response= null;
+        try {
+            response = productService.saveNewProduct(dto.getName(),dto.getStock());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{name}")
