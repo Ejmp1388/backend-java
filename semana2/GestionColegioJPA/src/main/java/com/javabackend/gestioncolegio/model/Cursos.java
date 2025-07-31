@@ -26,5 +26,5 @@ public class Cursos {
     private List<NotasEstudianteCurso> notasEstudianteCursos;
 
     @OneToMany(mappedBy = "cursos", fetch = FetchType.EAGER)
-    private List<Tareas> tareasPublicadas;
+    private List<Tareas> tareas;
 }

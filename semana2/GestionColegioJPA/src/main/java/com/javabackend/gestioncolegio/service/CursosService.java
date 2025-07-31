@@ -18,7 +18,7 @@ public class CursosService {
 
 
     public List<CursosResponseDto> getCursos(){
-        List<Cursos> cursosList= cursosRepository.findAll();
+        List<Cursos> cursosList= cursosRepository.findAllWithTareas();
         return mapCursos(cursosList);
     }
 
@@ -30,6 +30,7 @@ public class CursosService {
             cursosResponseDto.setId(curso.getId());
             cursosResponseDto.setNombre(curso.getNombre());
             cursosResponseDto.setDescripcion(curso.getDescripcion());
+
             TareasResponseDto tareasResponseDto= new TareasResponseDto();
             tareasResponseDto.setTitulo("pruebita");
             cursosResponseDto.setTareasResponseDto(tareasResponseDto);
