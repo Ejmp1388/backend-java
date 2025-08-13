@@ -1,10 +1,11 @@
-import concurrent.Counter;
-import concurrent.TransactionService;
+import concurrent.*;
+
+import java.util.concurrent.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         //EJEMPLO 1
        // TransactionService transactionService = new TransactionService();
@@ -18,7 +19,7 @@ public class Main {
 
 
         //EJEJMPLO 3
-
+/*
         Counter counter=new Counter();
 
         System.out.println(counter.getCont());
@@ -42,6 +43,46 @@ public class Main {
        // try {t2.join();} catch (InterruptedException e) { }
         //System.out.println("aquí " + counter.getCont());
         System.out.println("aquí " + Counter.atomicInteger);
+*/
+
+        //ejemplo future ya no hacemos de crear hilos
+
+        ExecutorService pool= Executors.newFixedThreadPool(2);
+        EmailService emailService=new EmailService();
+        SmsService smsService=new SmsService();
+        ReportService reportService=new ReportService();
+
+        Callable<Boolean> callableReport= ()-> reportService.report();
+
+        Future<Boolean> futureReport =pool.submit(callableReport);
+
+        if(!futureReport.isDone()){
+            System.out.println("reporte no listo");
+        }
+        Boolean reporAnswer= futureReport.get();
+        System.out.println("reporte esta listo "+ reporAnswer.booleanValue());
+
+       /* try {
+            Boolean reporAnswer= futureReport.get(3, TimeUnit.SECONDS);
+            if (reporAnswer.booleanValue()==true){
+                System.out.println("reporte esta listo");
+            }else {
+                System.out.println("reporte aun no está listo");
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
+        }*/
+
+        // Future<?> futureEmail=pool.submit(emailService::sendEmail);
+      //  Future<?> futureSms=pool.submit(emailService::sendEmail);
+
+
+
+
 
 
 
