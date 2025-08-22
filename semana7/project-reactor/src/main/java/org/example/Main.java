@@ -3,6 +3,7 @@ package org.example;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.function.Consumer;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -46,7 +47,8 @@ public class Main {
 
 
         //ejemplo 7 tipos operadores
-        publicadorNombres()
+
+       publicadorNombres()
                 .map(String::toUpperCase)
                 .filter(nombre->nombre.length()<=4)
                 .subscribe(
@@ -54,6 +56,8 @@ public class Main {
                 );
 
         //ejemplo 8 - no devuelve nada
+
+
         nada().subscribe(
                 null,
                 err->System.out.println(err.getMessage()),
@@ -64,10 +68,13 @@ public class Main {
      //   publicarSaludar().subscribe();
 
         //ejemplo 10 flatmap (obtener lo que tenga adentro del publicador)
-        saludador("Carlos").subscribe(
+
+        saludador("Carlos2").subscribe(
                 nombre->System.out.println(nombre)
         );
-
+        //clase 13-08-2025
+        //ejemplo 1
+        emitirNumeroe().subscribe(n->System.out.println(n));
 
     }
 
@@ -99,6 +106,11 @@ public class Main {
 
     public static Mono<String> publicarSaludar(){
         return Mono.fromSupplier(()->saludar()); //no es lazy pero fromSupplier y fronCallable y fromFuture si son lazy no se ejecuta a menos que se subscriba
+    }
+
+    //clase 13-08-2025
+    public static Flux<Integer> emitirNumeroe(){
+        return Flux.just(1,2,3,4,5).onErrorComplete().delayElements(Duration.ofSeconds(1)); //en caso que ocurra error que complete
     }
 
 }
