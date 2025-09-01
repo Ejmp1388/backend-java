@@ -1,0 +1,12 @@
+FROM openjdk:17-jdk-slim
+COPY target/bff.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+Docker Compose (despliegue local):
+version: '3'
+services:
+  bff:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
