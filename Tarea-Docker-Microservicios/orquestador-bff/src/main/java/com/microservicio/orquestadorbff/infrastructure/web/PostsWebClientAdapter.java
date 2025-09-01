@@ -18,7 +18,7 @@ public class PostsWebClientAdapter implements PostClientPort {
     public Flux<Posts> getPostsByUserId(Integer userId) {
         return webClient
                 .get()
-                .uri( "http://localhost:8090/api/v1/posts/{userId}", userId)
+                .uri( "http://posts-users:8090/api/v1/posts/{userId}", userId)
                 .retrieve()
                 .bodyToFlux(Posts.class);
     }

@@ -18,7 +18,7 @@ public class UsuarioWebClientAdapter implements UsuarioClientPort {
     public Mono<User> getUsuarioById(Integer id) {
         return webClient
                 .get()
-                .uri( "http://localhost:8080/api/v1/user/{id}", id)
+                .uri( "http://user-service:8080/api/v1/user/{id}", id)
                 .retrieve()
                 .bodyToMono(User.class);
     }

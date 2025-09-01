@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  user-service:
+    image: user-service:1.0.1
+    container_name: user-service-container
+    ports:
+      - "8080:8080"
+
+  posts-users:
+    image: posts-users:1.0.0
+    container_name: posts-users-container
+    ports:
+      - "8090:8090"
+
+  orquestador-bff:
+    image: orquestador-bff:1.0.1
+    container_name: orquestador-bff-container
+    ports:
+      - "8091:8091"
+    depends_on:
+      - user-service
+      - posts-users
